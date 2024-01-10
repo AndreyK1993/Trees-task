@@ -2,81 +2,29 @@ package binary_search_tree;
 
 public class BinarySearchTree {
 
-    TreeNode root;
+    private TreeNode root;
 
+    // Конструктор для создания пустого бинарного дерева поиска
     BinarySearchTree() {
         root = null;
     }
 
+    // Метод для вставки ключа в дерево
     void insert(int key) {
         root = insertKey(root, key);
     }
 
-    // Вставляємо ключ/вузол в дерево
-    TreeNode insertKey(TreeNode root, int key) {
-        // Повертаємо новий вузол, якщо дерево порожнє
-        if (root == null) {
-            root = new TreeNode(key);
-            return root;
-        }
-
-        // Переходимо в потрібне місце та вставляємо вузол
-        if (key < root.key)
-            root.left = insertKey(root.left, key);
-        else if (key > root.key)
-            root.right = insertKey(root.right, key);
-
-        return root;
-    }
-
+    // Метод для неупорядоченного обхода дерева
     void inorder() {
         inorderRec(root);
     }
 
-    // Неупорядкований обхід
-    void inorderRec(TreeNode root) {
-        if (root != null) {
-            inorderRec(root.left);
-            System.out.print(root.key + " ");
-            inorderRec(root.right);
-        }
-    }
-
+    // Метод для удаления ключа из дерева
     void deleteKey(int key) {
         root = deleteRec(root, key);
     }
 
-    TreeNode deleteRec(TreeNode root, int key) {
-        // Повернення, якщо дерево порожнє
-        if (root == null)
-            return root;
-
-        // Знаходимо вузол, який потрібно видалити
-        if (key < root.key)
-            root.left = deleteRec(root.left, key);
-        else if (key > root.key)
-            root.right = deleteRec(root.right, key);
-        else {
-            // Якщо вузол тільки з одним нащадком
-            // або без нащадка
-            if (root.left == null)
-                return root.right;
-            else if (root.right == null)
-                return root.left;
-
-            // Якщо вузол має двох нащадків,
-            // переміщуємо наступника за порядком
-            // в позицію видаляємого вузла
-            root.key = minValue(root.right);
-
-            // Видаляємо наступника за порядком
-            root.right = deleteRec(root.right, root.key);
-        }
-
-        return root;
-    }
-
-    // Знаходимо наступника за порядком
+    // Метод для поиска минимального значения в поддереве
     int minValue(TreeNode root) {
         int minv = root.key;
         while (root.left != null) {
@@ -86,12 +34,64 @@ public class BinarySearchTree {
         return minv;
     }
 
+    // Метод для предупорядоченного обхода дерева
     void preorder() {
         preorderRec(root);
     }
 
-    // Предупорядкованный обход
-    void preorderRec(TreeNode root) {
+    // Метод для поступорядоченного обхода дерева
+    void postorder() {
+        postorderRec(root);
+    }
+
+    // Приватный метод для вставки ключа в поддерево с корнем root
+    private TreeNode insertKey(TreeNode root, int key) {
+        if (root == null) {
+            root = new TreeNode(key);
+            return root;
+        }
+
+        if (key < root.key)
+            root.left = insertKey(root.left, key);
+        else if (key > root.key)
+            root.right = insertKey(root.right, key);
+
+        return root;
+    }
+
+    // Приватный метод для неупорядоченного обхода поддерева с корнем root
+    private void inorderRec(TreeNode root) {
+        if (root != null) {
+            inorderRec(root.left);
+            System.out.print(root.key + " ");
+            inorderRec(root.right);
+        }
+    }
+
+    // Приватный метод для удаления ключа из поддерева с корнем root
+    private TreeNode deleteRec(TreeNode root, int key) {
+        if (root == null)
+            return root;
+
+        if (key < root.key)
+            root.left = deleteRec(root.left, key);
+        else if (key > root.key)
+            root.right = deleteRec(root.right, key);
+        else {
+            if (root.left == null)
+                return root.right;
+            else if (root.right == null)
+                return root.left;
+
+            root.key = minValue(root.right);
+            root.right = deleteRec(root.right, root.key);
+        }
+
+        return root;
+    }
+
+    // Приватный метод для предупорядоченного обхода поддерева с корнем root
+    private void preorderRec(TreeNode root) {
         if (root != null) {
             System.out.print(root.key + " ");
             preorderRec(root.left);
@@ -99,12 +99,8 @@ public class BinarySearchTree {
         }
     }
 
-    void postorder() {
-        postorderRec(root);
-    }
-
-    // Поступорядкованный обход
-    void postorderRec(TreeNode root) {
+    // Приватный метод для поступорядоченного обхода поддерева с корнем root
+    private void postorderRec(TreeNode root) {
         if (root != null) {
             postorderRec(root.left);
             postorderRec(root.right);
@@ -112,6 +108,7 @@ public class BinarySearchTree {
         }
     }
 
+    // Точка входа для демонстрации работы дерева
     public static void main(String[] args) {
         BinarySearchTree tree = new BinarySearchTree();
         int[] keys = {8, 3, 1, 6, 7, 10, 14, 4, 9, 13, 11, 12};
