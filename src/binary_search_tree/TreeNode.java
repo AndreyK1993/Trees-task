@@ -1,7 +1,6 @@
 package binary_search_tree;
 
-public class TreeNode {
-
+class TreeNode {
     int key;
     TreeNode left;
     TreeNode right;

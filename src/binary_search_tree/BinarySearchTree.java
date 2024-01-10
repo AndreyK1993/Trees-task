@@ -19,21 +19,6 @@ public class BinarySearchTree {
         inorderRec(root);
     }
 
-    // Метод для удаления ключа из дерева
-    void deleteKey(int key) {
-        root = deleteRec(root, key);
-    }
-
-    // Метод для поиска минимального значения в поддереве
-    int minValue(TreeNode root) {
-        int minv = root.key;
-        while (root.left != null) {
-            minv = root.left.key;
-            root = root.left;
-        }
-        return minv;
-    }
-
     // Метод для предупорядоченного обхода дерева
     void preorder() {
         preorderRec(root);
@@ -46,11 +31,13 @@ public class BinarySearchTree {
 
     // Приватный метод для вставки ключа в поддерево с корнем root
     private TreeNode insertKey(TreeNode root, int key) {
+        // Если поддерево пустое, создаем новый узел
         if (root == null) {
             root = new TreeNode(key);
             return root;
         }
 
+        // Рекурсивно вставляем ключ в правое или левое поддерево
         if (key < root.key)
             root.left = insertKey(root.left, key);
         else if (key > root.key)
@@ -62,39 +49,23 @@ public class BinarySearchTree {
     // Приватный метод для неупорядоченного обхода поддерева с корнем root
     private void inorderRec(TreeNode root) {
         if (root != null) {
+            // Рекурсивно обходим левое поддерево
             inorderRec(root.left);
+            // Выводим значение текущего узла
             System.out.print(root.key + " ");
+            // Рекурсивно обходим правое поддерево
             inorderRec(root.right);
         }
-    }
-
-    // Приватный метод для удаления ключа из поддерева с корнем root
-    private TreeNode deleteRec(TreeNode root, int key) {
-        if (root == null)
-            return root;
-
-        if (key < root.key)
-            root.left = deleteRec(root.left, key);
-        else if (key > root.key)
-            root.right = deleteRec(root.right, key);
-        else {
-            if (root.left == null)
-                return root.right;
-            else if (root.right == null)
-                return root.left;
-
-            root.key = minValue(root.right);
-            root.right = deleteRec(root.right, root.key);
-        }
-
-        return root;
     }
 
     // Приватный метод для предупорядоченного обхода поддерева с корнем root
     private void preorderRec(TreeNode root) {
         if (root != null) {
+            // Выводим значение текущего узла
             System.out.print(root.key + " ");
+            // Рекурсивно обходим левое поддерево
             preorderRec(root.left);
+            // Рекурсивно обходим правое поддерево
             preorderRec(root.right);
         }
     }
@@ -102,10 +73,28 @@ public class BinarySearchTree {
     // Приватный метод для поступорядоченного обхода поддерева с корнем root
     private void postorderRec(TreeNode root) {
         if (root != null) {
+            // Рекурсивно обходим левое поддерево
             postorderRec(root.left);
+            // Рекурсивно обходим правое поддерево
             postorderRec(root.right);
+            // Выводим значение текущего узла
             System.out.print(root.key + " ");
         }
+    }
+
+    // Приватный метод для поиска минимального значения в поддереве с корнем root
+    private int minValue(TreeNode root) {
+        int minv = root.key;
+        while (root.left != null) {
+            minv = root.left.key;
+            root = root.left;
+        }
+        return minv;
+    }
+
+    // Публичный метод для вызова minValue извне класса
+    public int minValue() {
+        return minValue(root);
     }
 
     // Точка входа для демонстрации работы дерева
@@ -113,10 +102,12 @@ public class BinarySearchTree {
         BinarySearchTree tree = new BinarySearchTree();
         int[] keys = {8, 3, 1, 6, 7, 10, 14, 4, 9, 13, 11, 12};
 
+        // Вставляем ключи в дерево
         for (int key : keys) {
             tree.insert(key);
         }
 
+        // Выводим результаты трех видов обхода дерева
         System.out.print("Inorder traversal: ");
         tree.inorder();
 
@@ -125,5 +116,8 @@ public class BinarySearchTree {
 
         System.out.println("\nPostorder traversal: ");
         tree.postorder();
+
+        // Выводим минимальное значение в дереве
+        System.out.println("\nMinimum value: " + tree.minValue());
     }
 }
