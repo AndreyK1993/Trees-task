@@ -2,6 +2,30 @@ package binary_search_tree;
 
 public class BinarySearchTree {
 
+    // Точка входа для демонстрации работы дерева
+    public static void main(String[] args) {
+        BinarySearchTree tree = new BinarySearchTree();
+        int[] keys = {8, 3, 1, 6, 7, 10, 14, 4, 9, 13, 11, 12};
+
+        // Вставляем ключи в дерево
+        for (int key : keys) {
+            tree.insert(key);
+        }
+
+        // Выводим результаты трех видов обхода дерева
+        System.out.print("Inorder traversal: ");
+        tree.inorder();
+
+        System.out.println("\nPreorder traversal: ");
+        tree.preorder();
+
+        System.out.println("\nPostorder traversal: ");
+        tree.postorder();
+
+        // Выводим минимальное значение в дереве
+        System.out.println("\nMinimum value: " + tree.minValue());
+    }
+
     private TreeNode root;
 
     // Конструктор для создания пустого бинарного дерева поиска
@@ -97,27 +121,4 @@ public class BinarySearchTree {
         return minValue(root);
     }
 
-    // Точка входа для демонстрации работы дерева
-    public static void main(String[] args) {
-        BinarySearchTree tree = new BinarySearchTree();
-        int[] keys = {8, 3, 1, 6, 7, 10, 14, 4, 9, 13, 11, 12};
-
-        // Вставляем ключи в дерево
-        for (int key : keys) {
-            tree.insert(key);
-        }
-
-        // Выводим результаты трех видов обхода дерева
-        System.out.print("Inorder traversal: ");
-        tree.inorder();
-
-        System.out.println("\nPreorder traversal: ");
-        tree.preorder();
-
-        System.out.println("\nPostorder traversal: ");
-        tree.postorder();
-
-        // Выводим минимальное значение в дереве
-        System.out.println("\nMinimum value: " + tree.minValue());
-    }
 }
